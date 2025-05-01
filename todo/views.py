@@ -27,7 +27,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             
-            # Authenticate using the new user's credentials
+            
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
@@ -44,7 +44,7 @@ from .models import Task
 def delete_task(request, task_id):
     task = get_object_or_404(Task, id=task_id, user=request.user)
     task.delete()
-    return redirect('dashboard')  # Redirect back to the dashboard after deleting the task
+    return redirect('dashboard')  
 
 def toggle_task(request, task_id):
     task = get_object_or_404(Task, id=task_id, user=request.user)

@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm  # Add this import
+from django.contrib.auth.forms import UserCreationForm  
 from django.contrib.auth.models import User
 from .models import Task
 
@@ -8,7 +8,7 @@ class TaskForm(forms.ModelForm):
         model = Task
         fields = ['title']
 
-# Replace SignUpForm with this
+
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
