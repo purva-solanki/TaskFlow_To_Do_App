@@ -1,4 +1,3 @@
-```markdown
 # TaskFlow
 
 > A sleek, dark-themed todo-list web application with user authentication, built on Django.
