@@ -1,0 +1,69 @@
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - Your To-Do List</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <div class="dashboard-container">
+    <header>
+      <h1>Hello, {{ user.username }}!</h1>
+      <form action="{% url 'logout' %}" method="post" style="display: inline;">
+          {% csrf_token %}
+          <button type="submit" class="logout-btn">Logout</button>
+      </form>
+  </header>
+
+    <section class="task-form">
+      <h2>Add a New Task</h2>
+      <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Task</button>
+      </form>
+    </section>
+
+    <section class="task-list">
+      <span class="task-status">
+        {% if task.completed %}
+            <span class="completed">Done</span>
+        {% else %}
+            <span class="pending">Pending</span>
+        {% endif %}
+    </span>
+      <h2>Your Tasks</h2>
+      <ul>
+        {% for task in tasks %}
+          <li>
+            <div class="task-content">
+              <form action="{% url 'toggle_task' task.id %}" method="POST" style="display: inline;">
+                {% csrf_token %}
+                <input type="checkbox" name="completed" 
+                      {% if task.completed %}checked{% endif %} 
+                      onchange="this.form.submit()">
+              </form>
+              <span style="margin-left: 1rem; {% if task.completed %}text-decoration: line-through;{% endif %}">
+                {{ task.title }}
+              </span>
+            </div>
+            <div class="task-actions">
+              <small>{{ task.created_at|date:"M d, Y H:i" }}</small>
+              <form action="{% url 'delete_task' task.id %}" method="POST" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" style="background: var(--accent); margin-left: 1rem;">
+                  Delete
+                </button>
+              </form>
+            </div>
+          </li>
+        {% empty %}
+          <li>No tasks yet!</li>
+        {% endfor %}  <!-- This was missing -->
+      </ul>
+    </section>
+  </div>
+</body>
+</html>
